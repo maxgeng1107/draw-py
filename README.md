@@ -2,12 +2,18 @@
 
 > Originally written in 2024 as a high school self-study project. Uploaded to GitHub in 2026.
 
-<!-- TODO: add a demo GIF here -->
+![Demo: filling the background, then saving the drawing to PNG](docs/demo.gif)
 
 A desktop drawing application built from scratch with pygame, with two modes:
 
 - **Freehand mode** — draw on a custom-sized canvas (up to 1120 × 900)
 - **Pixel-grid mode** — color a grid tile by tile, like pixel art
+
+| Freehand mode | Pixel-grid mode (52 × 52) |
+|---|---|
+| ![Sleeping cat drawn in freehand mode](Paintings/LazyCat.png) | ![Flower bouquet drawn in pixel-grid mode](Paintings/Flowers.png) |
+
+![The freehand canvas and tool panel](docs/screenshot.png)
 
 ## Features
 
@@ -52,4 +58,4 @@ Looking back at this code two years later:
 - **Global state.** The current screen is a global variable changed from many functions, which makes bugs hard to trace. Each screen should return the next state and let the main loop switch.
 - **Duplicated code.** The freehand and grid modes have near-identical fill, menu, and save functions that could be shared.
 - **Zoom rescales the canvas itself**, so zooming loses pixel data. Keeping the original image and storing only a zoom factor would avoid that.
-- **Known bugs:** closing the window in freehand mode calls `pygame.quit()` without `sys.exit()`, and grid coloring reads `event.pos` outside the event loop, which can crash if the last event was a key press.
+- **Known bugs:** closing the window in freehand mode calls `pygame.quit()` without `sys.exit()`, grid coloring reads `event.pos` outside the event loop, which can crash if the last event was a key press, and only colors the cell under the last event of each frame, so fast drags skip cells. The right-click fill also reads `pygame.mouse.get_pos()` instead of the click's `event.pos`, so if the mouse moves before the event is handled, the fill lands in the wrong place.
