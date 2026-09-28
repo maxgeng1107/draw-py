@@ -58,4 +58,3 @@ Looking back at this code two years later:
 - **Global state.** The current screen is a global variable changed from many functions, which makes bugs hard to trace. Each screen should return the next state and let the main loop switch.
 - **Duplicated code.** The freehand and grid modes have near-identical fill, menu, and save functions that could be shared.
 - **Zoom rescales the canvas itself**, so zooming loses pixel data. Keeping the original image and storing only a zoom factor would avoid that.
-- **Known bugs:** closing the window in freehand mode calls `pygame.quit()` without `sys.exit()`, grid coloring reads `event.pos` outside the event loop, which can crash if the last event was a key press, and only colors the cell under the last event of each frame, so fast drags skip cells. The right-click fill also reads `pygame.mouse.get_pos()` instead of the click's `event.pos`, so if the mouse moves before the event is handled, the fill lands in the wrong place.
